@@ -1,0 +1,27 @@
+version: "3"
+services:
+  mydb:
+    image: "mysql"
+    container_name: mydb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "password"
+      MYSQL_DATABASE: "db"
+    ports:
+      - "3306:3306" 
+  web:
+    build: .
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mydb
+      - redis
+    command: 
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+    restart: always
+    environment:
+      - REDIS_PORT=6379
+      - REDIS_DATABASES=0
